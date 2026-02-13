@@ -21,6 +21,8 @@ body {
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
 }
 
 /* Typography */
@@ -324,6 +326,8 @@ body.nav-open {
     background: url('../images/hero-bg.jpg') no-repeat center center/cover;
     /* Fallback color */
     background-color: var(--secondary-charcoal);
+    overflow: hidden;
+    /* Prevent particle overflow */
 }
 
 .hero-bg-overlay {
@@ -404,7 +408,7 @@ body.nav-open {
 /* Service Highlights (Home) */
 .services-highlight {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
 
@@ -641,6 +645,10 @@ body.nav-open {
 
 /* Responsive */
 @media (max-width: 992px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+
     h1 {
         font-size: 2.5rem;
     }
