@@ -1,0 +1,52 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Brand Colors */
+    --primary-orange: #FE7F2D;
+    --primary-teal: #249E94;
+    --secondary-charcoal: #1F2933;
+    --bg-light-gray: #F5F7FA;
+    --bg-white: #FFFFFF;
+    --divider-gray: #E4E7EB;
+
+    /* Text Colors */
+    --text-primary: #1F2933;
+    --text-secondary: #52606D;
+    --text-light: #FFFFFF;
+
+    /* Typography */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --spacing-container: 1200px;
+    --spacing-section: 6rem;
+    /* Spacious padding */
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Semantic Aliases (Default Light Theme) */
+    --text-heading: var(--secondary-charcoal);
+    --bg-footer: var(--secondary-charcoal);
+    --bg-header-scrolled: rgba(255, 255, 255, 0.98);
+    --shadow-header: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+    --bg-white: #121212;
+    --bg-light-gray: #1E1E1E;
+    --text-primary: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --secondary-charcoal: #FFFFFF;
+    /* Re-mapped for some UI elements */
+
+    /* Semantic Overrides */
+    --text-heading: #FFFFFF;
+    --bg-footer: #000000;
+    --bg-header-scrolled: rgba(18, 18, 18, 0.95);
+    --divider-gray: #333333;
+    --shadow-header: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
