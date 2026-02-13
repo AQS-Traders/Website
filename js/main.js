@@ -43,34 +43,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroTimeline = gsap.timeline({ paused: true });
 
     // Build the hero entrance timeline (runs after preloader)
+    // Build the hero entrance timeline (runs after preloader)
     heroTimeline
         // Subtitle tag slides up + accent line draws in
         .to('.hero-subtitle-tag', {
             opacity: 1,
             y: 0,
-            duration: 0.35,
+            duration: 0.3, // Faster (was 0.35)
             ease: "power3.out",
             onComplete: () => {
                 document.querySelector('.hero-subtitle-tag')?.classList.add('active');
             }
         })
-        // Title sweeps up
+        // Title sweeps up - SNAPPIER
         .to('.hero-title', {
             opacity: 1,
             y: 0,
-            duration: 0.45,
+            duration: 0.35, // Faster (was 0.45)
             ease: "power3.out"
-        }, "-=0.2")
+        }, "-=0.25") // More overlap
         // Activate shimmer on "Precision"
         .add(() => {
             const shimmer = document.querySelector('.text-shimmer');
             if (shimmer) shimmer.style.animationPlayState = 'running';
-        }, "-=0.2")
+        }, "-=0.25")
         // Subtitle paragraph fades in
         .to('.hero-subtitle', {
             opacity: 1,
             y: 0,
-            duration: 0.35,
+            duration: 0.3, // Faster (was 0.35)
             ease: "power2.out"
         }, "-=0.25")
         // Buttons slide up
@@ -79,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             y: 0,
             duration: 0.3,
             ease: "power2.out"
-        }, "-=0.2")
+        }, "-=0.25")
         // Floating particles drift in
         .fromTo('.hero-particles span', {
             opacity: 0,
@@ -87,10 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, {
             opacity: 1,
             scale: 1,
-            duration: 1.2,
-            stagger: { each: 0.08, from: "random" },
+            duration: 0.8, // Faster (was 1.2)
+            stagger: { each: 0.05, from: "random" },
             ease: "elastic.out(1, 0.5)"
-        }, "-=0.6");
+        }, "-=0.4");
 
     // Continuous floating animation for particles
     gsap.utils.toArray('.hero-particles span').forEach((dot, i) => {
@@ -110,16 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
         tlLoad.to('.preloader-text span', {
             y: 0,
             opacity: 1,
-            duration: 0.4,
+            duration: 0.05, // Almost instant (was 0.3)
             ease: "power4.out",
-            delay: 0.05
+            delay: 0
         })
             .to(preloader, {
                 y: "-100%",
-                duration: 0.5,
+                duration: 0.4,
                 ease: "power4.inOut",
-                delay: 0.1,
-                onComplete: () => heroTimeline.play()
+                delay: 0.1, // Slight pause to read text (0.1s)
+                onStart: () => heroTimeline.play() // Play hero AS SOON AS curtain lifts
             });
     } else {
         // No preloader — play hero immediately
@@ -333,21 +334,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.querySelector('.mobile-toggle');
     const mainNav = document.querySelector('.main-nav');
 
-    if (mobileToggle) {
+    if (mobileToggle && mainNav) {
         mobileToggle.addEventListener('click', () => {
+            const isOpening = !mainNav.classList.contains('active');
+
             mainNav.classList.toggle('active');
-            mobileToggle.classList.toggle('active'); // Toggle icon state
+            mobileToggle.classList.toggle('active');
+            document.body.classList.toggle('nav-open');
+
+            // Swap icon: bars ↔ xmark
+            const icon = mobileToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars', !isOpening);
+                icon.classList.toggle('fa-xmark', isOpening);
+            }
 
             // Animate links on open
-            if (mainNav.classList.contains('active')) {
+            if (isOpening) {
                 gsap.from('.main-nav li', {
                     x: -20,
                     opacity: 0,
                     duration: 0.4,
-                    stagger: 0.1,
-                    delay: 0.2
+                    stagger: 0.08,
+                    delay: 0.15
                 });
             }
+        });
+
+        // Auto-close nav when a link is clicked
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                mobileToggle.classList.remove('active');
+                document.body.classList.remove('nav-open');
+
+                const icon = mobileToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-xmark');
+                }
+            });
         });
     }
 
